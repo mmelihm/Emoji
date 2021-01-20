@@ -5,25 +5,23 @@ const chalk = require("chalk");
 const moment = require("moment");
 var Jimp = require("jimp");
 const { Client, Util } = require("discord.js");
-const weather = require("weather-js");
 const fs = require("fs");
 const db = require("quick.db");
-const http = require("http");
+const http = require("http")
+  .createServer(async (req, res) => {
+    res.statusCode = 200;
+    res.write("ok");
+    res.end();
+  })
+  .listen(3000, () => console.log("Now listening on port 3000"));
+
 const express = require("express");
 require("./util/eventLoader")(client);
-const path = require("path");
-const request = require("request");
-const snekfetch = require("snekfetch");
-const queue = new Map();
-const YouTube = require("simple-youtube-api");
-const ytdl = require("ytdl-core");
-
 const app = express();
 app.get("/", (request, response) => {
   console.log(Date.now() + " Ping tamamdır.");
   response.sendStatus(200);
 });
-app.listen(process.env.PORT);
 setInterval(() => {
   http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
 }, 280000);
@@ -112,6 +110,9 @@ client.elevation = message => {
 };
 
 var regToken = /[\w\d]{24}\.[\w\d]{6}\.[\w\d-_]{27}/g;
+// client.on('debug', e => {
+//   console.log(chalk.bgBlue.green(e.replace(regToken, 'that was redacted')));
+// });
 
 client.on("warn", e => {
   console.log(chalk.bgYellow(e.replace(regToken, "that was redacted")));
@@ -122,7 +123,9 @@ client.on("error", e => {
 });
 
 client.login(ayarlar.token);
-///////////////////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const activities_list = [
   "Çok Yaşa Scorp!!!", // Sadece Tırnak Yani " İşareti İçinde Yazmakta Olan Mesajları Değiştirin.
   "Her Daim Anarşi!!", // Sadece Tırnak Yani " İşareti İçinde Yazmakta Olan Mesajları Değiştirin.
